@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <input type="text" id="text">
+        <svg id="svg" style="stroke-linejoin: round; stroke-linecap: round;" width="10000%" height="100000px" >
+
+        </svg>
+        <script>
+            function connectPoints(one, two, xOff, yOff, scale) {
+                console.log(one + " " + two)
+                let cX = [15, 0, 0, 15, 30, 30]
+                let cY = [0, 15, 35, 50, 35, 15]
+
+                let X1 = cX[one] * scale + xOff
+                let X2 = cX[two] * scale + xOff
+
+                let Y1 = cY[one] * scale + yOff
+                let Y2 = cY[two] * scale + yOff
+
+                let text1 = "M" + X1 + " " + Y1 + " L" + X2 + " " + Y2 
+                return '<path d=\"' + text1 + '\" stroke="black" stroke-width="5" fill="none"/>'
+            }
+            document.getElementById("text").addEventListener("change", () => {
+                let str = document.getElementById("text").value
+                let text = ""
+                let x = 0
+                let y = 0
+                for (var i = 0; i < str.length; i++) {
+                    let code = str.charCodeAt(i)
+                    if (code == 32) { x++; y = 0; continue}
+                    code = code - 12
+                    if (code <= 0)
+                    {
+                         continue
+                    } else {
+                        let scale = 2
+                        let offX = 45 * scale * x + 10
+                        let offY = 60 * scale * y + 10
+                        let taken = [1, 2, 3, 4, 5]
+                        
+                        let aux = Math.floor(code / 24)
+                        text += connectPoints(0, taken[aux], offX, offY, scale)
+
+                        let prev = taken[aux]
+                        taken.splice(aux, 1)
+                        code = code - aux * 24
+                        aux = Math.floor(code / 6)
+
+                        text += connectPoints(prev, taken[aux], offX, offY, scale)
+
+                        prev = taken[aux]
+                        taken.splice(aux, 1)
+                        code = code - aux * 6
+                        aux = Math.floor(code / 2)
+
+                        text += connectPoints(prev, taken[aux] , offX, offY, scale)
+
+                        prev = taken[aux]
+                        taken.splice(aux, 1)
+                        code = code - aux * 2
+                        aux = Math.floor(code / 1)
+
+                        text += connectPoints(prev, taken[aux], offX, offY, scale)
+
+                        prev = taken[aux]
+                        taken.splice(aux, 1)
+
+                        text += connectPoints(prev, taken[0], offX, offY, scale)
+                    }
+                    y++
+                }
+                document.getElementById("svg").innerHTML = text
+            })
+        </script>
+    </body>
+</html>
