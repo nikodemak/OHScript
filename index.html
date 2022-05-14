@@ -11,8 +11,8 @@
         <script>
             function connectPoints(one, two, xOff, yOff, scale) {
                 console.log(one + " " + two)
-                let cX = [15, 0, 0, 15, 30, 30]
-                let cY = [0, 15, 35, 50, 35, 15]
+                let cX = [10, 0, 0, 10, 20, 20]
+                let cY = [0, 10, 30, 40, 30, 10]
 
                 let X1 = cX[one] * scale + xOff
                 let X2 = cX[two] * scale + xOff
@@ -36,9 +36,9 @@
                     {
                          continue
                     } else {
-                        let scale = 2
-                        let offX = 45 * scale * x + 10
-                        let offY = 60 * scale * y + 10
+                        let scale = 2.5
+                        let offX = 30 * scale * x + 10
+                        let offY = 50 * scale * y + 10
                         let taken = [1, 2, 3, 4, 5]
                         
                         let aux = Math.floor(code / 24)
